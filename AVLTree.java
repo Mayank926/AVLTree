@@ -16,6 +16,16 @@ public class AVLTree {
         AVLNode root = new AVLNode(sc.nextInt());
         while (--n > 0) {
             root = insert(root, sc.nextInt());
+            if (rebalanceFlag && !isRebalanceDone) {
+                System.out.println("Insert order is " + insertOrder);
+                AVLNode dummyHead = new AVLNode(0);
+                if (insertOrder.length() == 2) {
+                    dummyHead.right = root;
+                    insertOrder = "R" + insertOrder;
+                    rebalance(dummyHead);
+                    root=dummyHead.right;
+                }
+            }
             insertOrder = "";
             increamentHeightFlag = false;
             isRebalanceDone = false;
@@ -85,11 +95,6 @@ public class AVLTree {
         AVLNode head = root;
         int len = insertOrder.length();
         System.out.println("In Rebalance with insertOrder " + insertOrder + " and head " + root.data);
-        if (len == 2) {
-            System.out.println("len is 2, Not yet implemented");
-        } else if (len == 3) {
-            System.out.println("len is 3, Not yet implemented");
-        } else {
             String disbalanceType = insertOrder.substring(1, 3);
             System.out.println("Disbalance type is : " + disbalanceType);
             char headToParent = insertOrder.charAt(0);
@@ -115,7 +120,6 @@ public class AVLTree {
                     break;
             }
             System.out.println("Rotations completed");
-        }
     }
 
     private static void performRightRotation(AVLNode head, AVLNode parent, AVLNode mid, char headToParent) {
